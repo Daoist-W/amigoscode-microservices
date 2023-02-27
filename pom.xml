@@ -11,6 +11,7 @@
 
   <modules>
     <module>customerMS</module>
+      <module>fraud</module>
   </modules>
 
   <name>microservices</name>
