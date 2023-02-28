@@ -3,14 +3,14 @@ server:
 
 spring:
   application:
-    name: fraudMS
+    name: fraud
   datasource:
     password: password
     url: jdbc:postgresql://localhost:5432/fraud
     username: isikodon
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

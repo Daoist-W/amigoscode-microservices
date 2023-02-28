@@ -1,4 +1,4 @@
-package com.isikodon.fraud.model;
+package com.isikodon.clients.fraud;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
