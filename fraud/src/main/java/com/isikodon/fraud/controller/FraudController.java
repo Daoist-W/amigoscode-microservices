@@ -1,6 +1,6 @@
 package com.isikodon.fraud.controller;
 
-import com.isikodon.fraud.model.FraudCheckResponse;
+import com.isikodon.clients.fraud.FraudCheckResponse;
 import com.isikodon.fraud.service.FraudCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

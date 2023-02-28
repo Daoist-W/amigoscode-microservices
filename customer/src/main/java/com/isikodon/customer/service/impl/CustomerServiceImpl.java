@@ -1,22 +1,21 @@
 package com.isikodon.customer.service.impl;
 
+import com.isikodon.clients.fraud.FraudCheckResponse;
+import com.isikodon.clients.fraud.FraudClient;
 import com.isikodon.customer.entity.CustomerEntity;
 import com.isikodon.customer.model.CustomerRegistrationRequest;
-import com.isikodon.customer.model.FraudCheckResponse;
 import com.isikodon.customer.repository.CustomerRepository;
 import com.isikodon.customer.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service("customerService")
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private RestTemplate restTemplate;
+    private final CustomerRepository customerRepository;
+    private final FraudClient fraudClient;
 
     @Override
     public void register(CustomerRegistrationRequest customerRegistrationRequest) {
@@ -32,10 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.saveAndFlush(customerEntity);
 
         // check if fraudster
-        var fraudCheckresponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customerEntity.getId());
+        FraudCheckResponse fraudCheckresponse = fraudClient.isFraudster(customerEntity.getId());
 
         if(fraudCheckresponse != null && fraudCheckresponse.isFraudulent()){
             throw new IllegalStateException("fraudulent");
