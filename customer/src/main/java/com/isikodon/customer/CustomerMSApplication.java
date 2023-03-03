@@ -8,7 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableEurekaClient
 @EnableFeignClients(basePackages = "com.isikodon.clients")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.isikodon.customer",
+        "com.isikodon.amqp"
+})
 public class CustomerMSApplication {
     public static void main(String[] args) {
         SpringApplication.run(CustomerMSApplication.class, args);

@@ -1,5 +1,6 @@
 package com.isikodon.customer.service.impl;
 
+import com.isikodon.amqp.RabbitMQMessageProducer;
 import com.isikodon.clients.fraud.FraudCheckResponse;
 import com.isikodon.clients.fraud.FraudClient;
 import com.isikodon.clients.notification.NotificationClient;
@@ -19,7 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer producer;
 
     @Override
     public void register(CustomerRegistrationRequest customerRegistrationRequest) {
@@ -47,10 +48,8 @@ public class CustomerServiceImpl implements CustomerService {
         request.setToCustomerEmail(customerEntity.getEmail());
         request.setMessage("Hello world");
 
-        System.out.println(request);
-
-        // todo: make asynchronous, add to queue
-        notificationClient.sendNotification(request);
+        // todo: centralise source of exchange and routingKey
+        producer.publish(request, "internal.exchange", "internal.notification.routing-key");
 
     }
 }
