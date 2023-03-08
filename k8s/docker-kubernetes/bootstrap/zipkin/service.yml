@@ -10,4 +10,4 @@ spec:
       port: 9411
       targetPort: 9411
 
-  type: ClusterIP
+  type: LoadBalancer
