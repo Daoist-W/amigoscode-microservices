@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zipkin
+  labels:
+    app: zipkin
+spec:
+  serviceName: zipkin
+  replicas: 1
+  template:
+    metadata:
+      name: zipkin
+      labels:
+        app: zipkin
+    spec:
+      containers:
+        - name: zipkin
+          image: openzipkin/zipkin
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: zipkin
