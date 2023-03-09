@@ -19,8 +19,11 @@ spec:
           ports:
             - containerPort: 8081
           env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: kube
+            - name: POSTGRES_URL_PLACEHOLDER
+              value: jdbc:postgresql://lin-17794-6089-pgsql-primary.servers.linodedb.net:5432/fraud
+          envFrom:
+            - configMapRef:
+                name: postgres-credentials
       restartPolicy: Always
   selector:
     matchLabels:
