@@ -20,7 +20,7 @@ spec:
             - containerPort: 8081
           env:
             - name: POSTGRES_URL_PLACEHOLDER
-              value: jdbc:postgresql://lin-17794-6089-pgsql-primary.servers.linodedb.net:5432/fraud
+              value: jdbc:postgresql://postgres/fraud
           envFrom:
             - configMapRef:
                 name: postgres-credentials
