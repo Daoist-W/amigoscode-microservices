@@ -11,8 +11,8 @@ import org.springframework.context.annotation.PropertySources;
 @EnableEurekaClient
 @EnableFeignClients(basePackages = "com.isikodon.clients")
 @SpringBootApplication(scanBasePackages = {
-        "com.isikodon.customer",
-        "com.isikodon.amqp"
+        "com.isikodon.customer"
+//        "com.isikodon.amqp"
 })
 @PropertySources(
         @PropertySource("classpath:clients-${spring.profiles.active}.properties")

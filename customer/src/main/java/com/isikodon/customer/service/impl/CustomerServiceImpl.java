@@ -1,9 +1,7 @@
 package com.isikodon.customer.service.impl;
 
-import com.isikodon.amqp.RabbitMQMessageProducer;
 import com.isikodon.clients.fraud.FraudCheckResponse;
 import com.isikodon.clients.fraud.FraudClient;
-import com.isikodon.clients.notification.NotificationClient;
 import com.isikodon.clients.notification.NotificationRequest;
 import com.isikodon.customer.entity.CustomerEntity;
 import com.isikodon.customer.model.CustomerRegistrationRequest;
@@ -11,6 +9,7 @@ import com.isikodon.customer.repository.CustomerRepository;
 import com.isikodon.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -20,7 +19,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
-    private final RabbitMQMessageProducer producer;
+//    private final RabbitMQMessageProducer producer;
+    private final KafkaTemplate<String, NotificationRequest> kafkaTemplate;
 
     @Override
     public void register(CustomerRegistrationRequest customerRegistrationRequest) {
@@ -48,8 +48,11 @@ public class CustomerServiceImpl implements CustomerService {
         request.setToCustomerEmail(customerEntity.getEmail());
         request.setMessage("Hello world");
 
-        // todo: centralise source of exchange and routingKey
-        producer.publish(request, "internal.exchange", "internal.notification.routing-key");
+//        // send notification via rabbitmq
+//        producer.publish(request, "internal.exchange", "internal.notification.routing-key");
+
+        // send notification via kafka
+        kafkaTemplate.send("notification", request);
 
     }
 }

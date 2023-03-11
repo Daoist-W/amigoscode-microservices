@@ -20,7 +20,9 @@ spec:
             - containerPort: 8080
           env:
             - name: POSTGRES_URL_PLACEHOLDER
-              value: jdbc:postgresql://lin-17794-6089-pgsql-primary.servers.linodedb.net:5432/customer
+              value: jdbc:postgresql://postgres/customer
+            - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
+              value: kafka:9092
           envFrom:
             - configMapRef:
                 name: postgres-credentials
