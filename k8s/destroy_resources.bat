@@ -1,10 +1,15 @@
 @echo off
-setlocal enabledelayedexpansion
 
-set /p "dir_path=Enter the directory path: "
-
-for /d %%a in ("%dir_path%\*") do (
-  set "subdir_path=%%a"
-  echo Deleting from !subdir_path!
-  kubectl delete -f "!subdir_path!"
+for /d %%d in (*) do (
+  echo directory: "%%d"
+  cd "%%d"
+  for /d %%d in (*) do (
+       cd "%%d"
+       for %%f in (*.yml) do (
+         echo deleting "%%f"
+         kubectl delete -f "%%f"
+       )
+       cd ..
+  )
+  cd ..
 )

@@ -6,8 +6,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication(scanBasePackages = {
-        "com.isikodon.notification",
-        "com.isikodon.amqp"
+        "com.isikodon.notification"
+//        "com.isikodon.amqp"
 })
 @PropertySources(
         @PropertySource("classpath:clients-${spring.profiles.active}.properties")
@@ -17,17 +17,4 @@ public class NotificationApplication {
         SpringApplication.run(NotificationApplication.class, args);
     }
 
-//    @Bean
-//    CommandLineRunner commandLineRunner(
-//            RabbitMQMessageProducer producer,
-//            NotificationConfig notificationConfig
-//    ){
-//        return args -> {
-//            producer.publish(
-//                    "Hello world",
-//                    notificationConfig.getInternalExchange(),
-//                    notificationConfig.getInternalNotificationRoutingKey()
-//            );
-//        };
-//    }
 }

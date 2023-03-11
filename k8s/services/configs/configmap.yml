@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-credentials
+data:
+  SPRING_PROFILES_ACTIVE: kube
+  SPRING_DATASOURCE_USERNAME: isikodon
+  SPRING_DATASOURCE_URL: ${POSTGRES_URL_PLACEHOLDER}
+  SPRING_DATASOURCE_PASSWORD: password
